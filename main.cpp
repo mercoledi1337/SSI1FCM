@@ -3,12 +3,10 @@
 #include <stdlib.h>
 #include <iostream>
 #include <fstream>
-#include <ctime>
 #include <random>
 #include <cmath>
 #include "gnuplot_iostream.h"
-#include <numeric>
-#include <cstdlib>
+
 using namespace std;
 
 const int m = 3;
@@ -78,7 +76,6 @@ int main() {
     while (getline(iFile, line) && readcount < M)
     {
         double group = readcount%4; // temporary colour
-        double group_odl = readcount%4; // temporary colour
         location = line.find(','); // spliting line with,
         first = line.substr(0, location);
         line = line.substr(location + 1, line.length());
@@ -134,7 +131,6 @@ int main() {
 
     gp << "set term wxt 1\n";
     gp << "set title 'Wykres spiralka z centroidami'\n";
-    gp << "set cbrange [0:2]\n";
     gp << "set palette rgb 3,13,10\n";
     gp << "plot '-' using 1:2:3 with points pt 7 lc palette title 'punkty', "
              "'-' using 1:2:3 with points pt 6 ps 1.5 lc palette title 'środki'\n";
