@@ -154,13 +154,13 @@ int main() {
         if (i == 4) {
             coloring(U, spiralka);
             gp << "set term wxt 4\n";
-            gp << "set title 'Wykres spiralka z centroidami'\n";
+            gp << "set title 'Wykres spiralka z centroidami " << i << " iteracji'\n";
             gp << "set palette rgb 3,13,10\n";
             gp << "plot '-' using 1:2:3 with points pt 7 lc palette title 'punkty', "
                      "'-' using 1:2:3 with points pt 6 ps 1.5 lc palette title 'środki'\n";
             gp.send1d(spiralka);
             gp.send1d(V);
-
+            cout << i << " liczba iteracji" << endl;
             raport(V, U);
         }
     }
@@ -169,7 +169,7 @@ int main() {
     coloring(U, spiralka);
 
     gp << "set term wxt 20\n";
-    gp << "set title 'Wykres spiralka z centroidami'\n";
+    gp << "set title 'Wykres spiralka z centroidami " << iter << " iteracji'\n";
     gp << "set palette rgb 3,13,10\n";
     gp << "plot '-' using 1:2:3 with points pt 7 lc palette title 'punkty', "
              "'-' using 1:2:3 with points pt 6 ps 1.5 lc palette title 'środki'\n";
