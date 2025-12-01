@@ -14,7 +14,7 @@ const int n = 1;
 const int M = 101;
 const int fcm = 2;
 const double eps = 1e-10;
-const double iter = 10;
+const double iter = 20;
 
 void updateD(vector<vector<double>>& D, vector<vector<double>>& spiralka,  vector<vector<double>>& V) {
     for (int j = 0; j < m; j++) {
@@ -63,6 +63,32 @@ void coloring(vector<vector<double>> U, vector<vector<double>>& spiralka) {
         }
         spiralka[k][2] = h;
     }
+}
+
+void raport(vector<vector<double>> V, vector<vector<double>> U) {
+    double min = 100;
+    double max = -100;
+    for (int j = 0; j < m; j++) {
+        double sumP = 0;
+        cout << V[j][0] << " X " << V[j][1]<< " Y srodka " << j << endl;
+        for (int x = 0; x < M; x++) {
+            if (U[j][x] > 0.6) {
+                sumP++;
+                if (U[j][x] < min) {
+                    min = U[j][x];
+                }
+                if (U[j][x] > max) {
+                    max = U[j][x];
+                }
+            }
+        }
+        cout << sumP << " liczba probek ktore sa > 0.6"<<endl;
+    }
+
+    if (min == 100 || max == 100)
+        cout << "brak punktow" << endl;
+    else
+        cout << min << " min " << max << " max \n" << endl;
 }
 
 int main() {
@@ -125,11 +151,24 @@ int main() {
         updateD(D,spiralka,V);
         updateU(D,U);
         updateV(V,U,spiralka);
-    }
+        if (i == 4) {
+            coloring(U, spiralka);
+            gp << "set term wxt 4\n";
+            gp << "set title 'Wykres spiralka z centroidami'\n";
+            gp << "set palette rgb 3,13,10\n";
+            gp << "plot '-' using 1:2:3 with points pt 7 lc palette title 'punkty', "
+                     "'-' using 1:2:3 with points pt 6 ps 1.5 lc palette title 'środki'\n";
+            gp.send1d(spiralka);
+            gp.send1d(V);
 
+            raport(V, U);
+        }
+    }
+    cout << iter << " liczba iteracji" << endl;
+    raport(V, U);
     coloring(U, spiralka);
 
-    gp << "set term wxt 1\n";
+    gp << "set term wxt 20\n";
     gp << "set title 'Wykres spiralka z centroidami'\n";
     gp << "set palette rgb 3,13,10\n";
     gp << "plot '-' using 1:2:3 with points pt 7 lc palette title 'punkty', "
